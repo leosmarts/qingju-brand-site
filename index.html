@@ -545,6 +545,48 @@
     body { font-size: 15px; }
   }
 
+  /* ---------- Copy Sample ---------- */
+  .copy-sample {
+    margin-top: 16px;
+    padding: 14px 18px;
+    border: 1px dashed var(--accent);
+    border-radius: 10px;
+    background: var(--accent-soft);
+    font-size: 0.86rem;
+    line-height: 1.7;
+    color: #2A4A3C;
+  }
+
+  .copy-sample::before {
+    content: "示例文案";
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #FFFFFF;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .copy-sample .cs-block { margin-bottom: 10px; }
+  .copy-sample .cs-block:last-child { margin-bottom: 0; }
+  .copy-sample .cs-label {
+    display: block;
+    color: var(--accent);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    margin-bottom: 2px;
+  }
+  .copy-sample .cs-quote {
+    margin: 0;
+    padding: 0;
+    font-style: normal;
+  }
+  .copy-sample .cs-quote b { color: #1F2933; }
+
   @media print {
     body { background: #FFFFFF; }
     .cover { background: none; }
@@ -866,6 +908,57 @@
           <li><b>常见问题：</b>5 条高频疑问，直接给答案</li>
           <li><b>品牌落款：</b>成立时间、所在城市、执业信息，作为实体总结</li>
         </ul>
+        <div class="copy-sample">
+          <div class="cs-block">
+            <span class="cs-label">品牌主张首屏</span>
+            <p class="cs-quote"><b>轻一点，也认真一点。</b></p>
+            <p class="cs-quote">轻桔是一家专注轻医美的品牌。我们不过度推荐，不制造焦虑，只在你想认真对待自己的时候，提供专业、透明、让你安心的选择。</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">信任条（4 项）</span>
+            <p class="cs-quote">· 医师团队均持皮肤科执业证书，平均从业年限 5 年以上</p>
+            <p class="cs-quote">· 所有操作器械一人一用一消毒，消毒记录可查</p>
+            <p class="cs-quote">· 机构持有效的《医疗美容机构执业许可证》</p>
+            <p class="cs-quote">· 每次面诊不低于 20 分钟，有疑问随时提问</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">服务总览（四类）</span>
+            <p class="cs-quote">· <b>肌肤管理：</b>从清洁、补水到屏障修护，解决日常皮肤困扰</p>
+            <p class="cs-quote">· <b>轻塑形：</b>局部改善，不动刀不埋线，适合初入医美的你</p>
+            <p class="cs-quote">· <b>抗初老：</b>提早介入，维持皮肤自然状态，不过度干预</p>
+            <p class="cs-quote">· <b>身体护理：</b>肩颈、背部、手足，让放松成为日常</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">品牌优势（三条）</span>
+            <p class="cs-quote">· <b>轻：</b>不过度推荐。面诊医师会同时告诉你"适合"和"不适合"。</p>
+            <p class="cs-quote">· <b>透：</b>流程、费用、恢复期说清楚。没有隐藏消费，没有模糊描述。</p>
+            <p class="cs-quote">· <b>稳：</b>医师判断优先于任何话术。我们宁愿你多想想，也不催你决定。</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">门店模块</span>
+            <p class="cs-quote"><b>轻桔 · 城央店</b>｜XX 市 XX 区 XX 路 XX 号 XX 大厦 3F</p>
+            <p class="cs-quote">营业时间：周一至周日 10:00 – 20:00｜电话：0XX-XXXX-XXXX</p>
+            <p class="cs-quote">地铁 XX 线 XX 站 B 出口步行 3 分钟｜车位充足</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">真实评价（3 条，需授权）</span>
+            <p class="cs-quote">"第一次做医美很紧张，医师讲得特别细，连我问的'能不能吃辣'都记得回头提醒。" —— 林女士 · 29 岁</p>
+            <p class="cs-quote">"不推销这点真的难得。我只想补水，她帮我测完说先不用做别的，比想象中靠谱。" —— 周女士 · 34 岁</p>
+            <p class="cs-quote">"环境安静，空间不大但感觉舒服，不像那种人挤人的机构。" —— 陈女士 · 26 岁</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">常见问题（5 条）</span>
+            <p class="cs-quote">Q：轻桔和普通美容院有什么不同？ A：轻桔是持医疗美容执业许可证的机构，有执业医师坐诊。</p>
+            <p class="cs-quote">Q：第一次来需要准备什么？ A：素颜到店即可；正在用药或有皮肤病建议提前告知。</p>
+            <p class="cs-quote">Q：做完项目多久能恢复？ A：多数项目当天可正常出门，少数有短暂红热，具体看项目。</p>
+            <p class="cs-quote">Q：一定要办卡吗？ A：不需要。所有项目单次可做，办卡完全自愿。</p>
+            <p class="cs-quote">Q：怎么收费？ A：价格在项目页公示，面诊时明确费用范围，无隐藏消费。</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">品牌落款</span>
+            <p class="cs-quote">轻桔（Qingju）｜成立于 2024 年｜XX 市｜医疗美容机构执业许可证编号：XXXXXXXXX</p>
+          </div>
+        </div>
       </div>
 
       <div class="card">
@@ -879,6 +972,41 @@
           <li><b>团队简介：</b>医师、护理与顾问的角色分工</li>
           <li><b>发展时间线：</b>仅使用真实节点，不虚构荣誉</li>
         </ul>
+        <div class="copy-sample">
+          <div class="cs-block">
+            <span class="cs-label">品牌定义（首段 50 字左右）</span>
+            <p class="cs-quote">轻桔（Qingju）是一家位于 XX 市的轻医美机构，成立于 2024 年，专注肌肤管理、轻塑形、抗初老与身体护理，持证经营。</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">品牌故事</span>
+            <p class="cs-quote">轻桔的两位创始人，一位是皮肤科医师，一位是品牌人。过去几年她们发现：想做轻医美的人越来越多，但信息真假难辨，机构推销过度，很多人第一次走进诊室就被"升级"方案，最后花了远超预期的钱。</p>
+            <p class="cs-quote">于是有了轻桔。名字里的"轻"既是轻医美，也是一种态度——我们不觉得每个人都需要做项目，也不觉得做项目的人"不够好"。轻一点，也认真一点，这是我们想给每一位走进来的人的感受。</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">三条理念</span>
+            <p class="cs-quote"><b>轻 · 不过度。</b>我们不会给不需要的人推荐项目。如果面诊后你暂时不适合做，医师会直接告诉你。</p>
+            <p class="cs-quote"><b>透 · 说清楚。</b>每个项目的原理、恢复期、可能感受、甚至"可能没那么明显"的情况，我们都会在面诊时讲到位。</p>
+            <p class="cs-quote"><b>稳 · 专业优先。</b>医师的判断高于所有销售指标。我们不考核医师的业绩，只考核两件事：有没有把边界说清楚，有没有把每个步骤做规范。</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">空间与流程</span>
+            <p class="cs-quote">到店 → 顾问确认预约信息 → 皮肤检测（约 5 分钟，可选择做与不做） → 医师面诊（20–40 分钟） → 方案确认与签字 → 操作室准备与消毒 → 项目进行 → 护理指导 → 离店</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">团队简介</span>
+            <p class="cs-quote">· <b>医师：</b>均为皮肤科执业医师，负责面诊、方案制定与操作</p>
+            <p class="cs-quote">· <b>护理师：</b>负责术后护理指导与皮肤管理项目的执行</p>
+            <p class="cs-quote">· <b>顾问：</b>负责预约、登记与流程衔接，不参与项目推荐</p>
+            <p class="cs-quote">· <b>护士长：</b>负责消毒、器械管理与院感控制，每日记录留档</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">发展时间线（真实节点）</span>
+            <p class="cs-quote">2024 年 03 月｜轻桔第一家门店 · XX 城央店筹备启动</p>
+            <p class="cs-quote">2024 年 09 月｜城央店取得《医疗美容机构执业许可证》，正式开业</p>
+            <p class="cs-quote">2025 年 01 月｜累计服务用户突破 1000 人</p>
+            <p class="cs-quote">更多门店筹备中，有真实地址后再在此处更新</p>
+          </div>
+        </div>
       </div>
 
       <div class="card">
@@ -891,6 +1019,36 @@
           <li><b>项目对比：</b>同类项目差异与选择建议</li>
           <li><b>风险提示：</b>每页固定位置的风险与禁忌说明</li>
         </ul>
+        <div class="copy-sample">
+          <div class="cs-block">
+            <span class="cs-label">四大分类（带一句说明）</span>
+            <p class="cs-quote">· <b>肌肤管理</b>｜清洁、补水、屏障修护、肤色改善——解决"每天护理但还是觉得皮肤不好"的困扰</p>
+            <p class="cs-quote">· <b>轻塑形</b>｜局部调整轮廓与线条，不动刀、不埋线，适合第一次接触轻医美的你</p>
+            <p class="cs-quote">· <b>抗初老</b>｜从 25 岁起的预防性介入，维持皮肤自然状态，而非追求"返老还童"</p>
+            <p class="cs-quote">· <b>身体护理</b>｜肩颈放松、背部护理、手足保养——让放松成为日常的一部分</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">项目卡片示例：水光类</span>
+            <p class="cs-quote"><b>适合人群：</b>想改善皮肤干燥、肤色不均、化妆卡粉的人群；近期无皮肤炎症、非孕期。</p>
+            <p class="cs-quote"><b>体验流程：</b>清洁 → 敷麻药约 30 分钟 → 消毒 → 注射（约 15–20 分钟） → 敷修复面膜 → 护理指导</p>
+            <p class="cs-quote"><b>周期建议：</b>首次建议 3 次为一个疗程，每次间隔 3–4 周；后续按需每 1–2 个月维持一次。</p>
+            <p class="cs-quote"><b>注意事项：</b>术后 6 小时不沾水，3 天不化妆，一周内避免剧烈运动与桑拿；严格防晒。</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">详情页模板示例（首屏）</span>
+            <p class="cs-quote"><b>标题：</b>水光类项目｜让皮肤喝饱水的基础选项</p>
+            <p class="cs-quote"><b>一句话：</b>通过微针将透明质酸直接注入真皮层，改善干燥、暗沉与细纹，适合大多数人的基础护理项目。</p>
+            <p class="cs-quote"><b>原理：</b>（此处为 1–2 段通俗解释，避免堆砌术语）</p>
+            <p class="cs-quote"><b>过程：</b>（6–8 步时间线，每步 1–2 句话）</p>
+            <p class="cs-quote"><b>恢复期：</b>术后当天可能有轻微红肿、针眼，一般 24–48 小时消退。</p>
+            <p class="cs-quote"><b>常见问题：</b>（4–6 条 FAQ，详见页面下方）</p>
+            <p class="cs-quote"><b>禁忌：</b>孕期、哺乳期、正在使用抗凝药物、近一个月有皮肤炎症者不建议。</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">风险提示（每页固定位置）</span>
+            <p class="cs-quote"><b>风险提示：</b>本项目属医疗美容范畴，效果因人而异，恢复期与个人体质相关。有基础疾病、正在用药或近期有手术史者，请在面诊时如实告知医师。轻桔不承诺具体效果，所有项目在医师评估后进行。</p>
+          </div>
+        </div>
       </div>
 
       <div class="card">
@@ -903,6 +1061,33 @@
           <li><b>内容署名：</b>医师作为文章审阅者，链接到个人简介</li>
           <li><b>出诊信息：</b>固定出诊时间与所在门店</li>
         </ul>
+        <div class="copy-sample">
+          <div class="cs-block">
+            <span class="cs-label">医师卡片示例</span>
+            <p class="cs-quote"><b>张 × × 医师</b>｜皮肤性病科 主治医师</p>
+            <p class="cs-quote">执业证书编号：110XXXXXXXXXXXX｜可在国家卫生健康委员会官方网站核验</p>
+            <p class="cs-quote">从业年限：7 年｜擅长：肌肤管理、水光类、光子类项目、敏感肌护理</p>
+            <p class="cs-quote">出诊门店：轻桔 · 城央店｜出诊时间：周二至周六 10:00 – 18:00</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">专业经历（可核验）</span>
+            <p class="cs-quote">· 2017 年毕业于 ×× 医学院皮肤性病学专业，获硕士学位</p>
+            <p class="cs-quote">· 2017 – 2022 年就职于 ×× 医院皮肤科</p>
+            <p class="cs-quote">· 2021 年取得 ×× 认证皮肤年轻化技术培训证书（证书编号 ××××××，可在 ×× 官网核验）</p>
+            <p class="cs-quote">· 2023 年加入轻桔，负责城央店面诊与项目操作</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">内容署名示例</span>
+            <p class="cs-quote">文章《水光类项目适合谁》｜作者：轻桔内容组｜审阅医师：张 × ×｜最后更新：2026-09-15</p>
+            <p class="cs-quote">（"张 × ×"为可点击链接，跳转到医师个人简介页）</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">出诊信息（表格形式）</span>
+            <p class="cs-quote">张 × ×｜周二—周六 10:00–18:00｜城央店</p>
+            <p class="cs-quote">李 × ×｜周一、周三、周日 10:00–18:00｜城央店</p>
+            <p class="cs-quote">（节假日可能调整，以门店电话确认为准）</p>
+          </div>
+        </div>
       </div>
 
       <div class="card">
@@ -916,6 +1101,40 @@
           <li><b>到店须知：</b>素颜、避开生理期等实用提示</li>
           <li><b>NAP 一致性：</b>与地图、点评平台信息保持一致</li>
         </ul>
+        <div class="copy-sample">
+          <div class="cs-block">
+            <span class="cs-label">门店列表页（当前 1 家）</span>
+            <p class="cs-quote">轻桔目前在 XX 市有 1 家门店：</p>
+            <p class="cs-quote">· <b>轻桔 · 城央店</b>｜XX 市 XX 区 XX 路 XX 号 XX 大厦 3F｜营业时间 10:00 – 20:00</p>
+            <p class="cs-quote">更多门店筹备中，有真实地址与营业时间后会在此处同步。</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">单店详情页</span>
+            <p class="cs-quote"><b>轻桔 · 城央店</b></p>
+            <p class="cs-quote">地址：XX 市 XX 区 XX 路 XX 号 XX 大厦 3 楼 301 室</p>
+            <p class="cs-quote">营业时间：周一至周日 10:00 – 20:00（全年无休）</p>
+            <p class="cs-quote">电话：0XX-XXXX-XXXX｜微信：qingju-xx（加好友可预约咨询）</p>
+            <p class="cs-quote">交通：地铁 XX 线 XX 站 B 出口出站后步行约 3 分钟</p>
+            <p class="cs-quote">停车：大厦 B2 层，到店可领取 2 小时免费停车券</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">驻店团队</span>
+            <p class="cs-quote">驻店医师：张 × ×（周二—周六）、李 × ×（周一、周三、周日）</p>
+            <p class="cs-quote">护理团队：3 名持证护理师 + 1 名护士长</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">本店可提供的服务（链接到服务项目页）</span>
+            <p class="cs-quote">肌肤管理 · 水光类 · 光子类 · 轻塑形 · 抗初老 · 身体护理</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">到店须知</span>
+            <p class="cs-quote">· 建议素颜到店，面诊前不要化妆</p>
+            <p class="cs-quote">· 避开生理期、孕期与哺乳期</p>
+            <p class="cs-quote">· 正在用药或有皮肤病，请提前告知并携带相关资料</p>
+            <p class="cs-quote">· 迟到 30 分钟以上需重新预约</p>
+            <p class="cs-quote">· 首次到店请预留约 1.5 小时（含面诊）</p>
+          </div>
+        </div>
       </div>
 
       <div class="card">
@@ -928,6 +1147,31 @@
           <li><b>相关阅读：</b>同栏目 2–3 篇，形成主题簇</li>
           <li><b>引用友好：</b>关键事实独立成段，配来源说明</li>
         </ul>
+        <div class="copy-sample">
+          <div class="cs-block">
+            <span class="cs-label">文章模板示例（标题 + 首段）</span>
+            <p class="cs-quote"><b>标题：</b>水光类项目适合谁？不适合谁？一次性说清楚</p>
+            <p class="cs-quote"><b>首段（结论先行）：</b>如果你想改善皮肤干燥、暗沉、化妆卡粉，同时近期没有皮肤炎症、非孕期，水光类是一个值得考虑的基础选项。但如果你正在使用抗凝药物、近一个月做过其他医美项目，建议先等等。</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">要点清单（示例段落结构）</span>
+            <p class="cs-quote"><b>适合人群：</b>干燥缺水、肤色不均、化妆卡粉、作息不规律导致皮肤状态差的人群。</p>
+            <p class="cs-quote"><b>不适合人群：</b>孕期哺乳期、有严重皮肤病、正在使用抗凝药物、近一个月接受过其他注射类项目。</p>
+            <p class="cs-quote"><b>可能的感受：</b>注射时有轻微刺痛感，术后几小时有红肿针眼（正常反应），一般 24–48 小时消退。</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">文章末尾固定块</span>
+            <p class="cs-quote"><b>常见问题</b>（4–6 条，每条一句话回答）</p>
+            <p class="cs-quote"><b>注意事项</b>（术后护理清单，用条目呈现）</p>
+            <p class="cs-quote"><b>审阅医师：</b>张 × ×｜皮肤性病科主治医师｜执业编号 110XXXXXXXXXXXX</p>
+            <p class="cs-quote"><b>作者：</b>轻桔内容组｜最后更新：2026-10-28</p>
+            <p class="cs-quote"><b>免责声明：</b>本文内容仅供科普参考，不构成医疗建议。具体方案请以线下面诊与医师判断为准。</p>
+          </div>
+          <div class="cs-block">
+            <span class="cs-label">引用友好段落（独立可被 AI 抓取）</span>
+            <p class="cs-quote">💡 <b>关键事实独立成段：</b>"轻桔目前有 1 家门店，位于 XX 市 XX 区 XX 路 XX 号。" —— 这句话本身能独立成立，AI 引用时不会断章取义。</p>
+          </div>
+        </div>
       </div>
     </div>
 
