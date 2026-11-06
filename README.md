@@ -1,8 +1,8 @@
 # 嘟嘟的 3D 直播间（原型）
 
-一个用浏览器实时渲染的 3D 虚拟直播间原型：暖色调的客厅场景、一个会眨眼会说话的卡通主播，以及叠加在画面上的点歌台、礼物榜、收支账单和实时字幕条。
+一个用浏览器实时渲染的 3D 虚拟直播间原型：暖色调的客厅场景、一个会眨眼、会挥手、会说话的猫系主播，以及叠加在画面上的点歌台、礼物榜、收支账单和实时字幕条。
 
-全部跑在 Web 端，不依赖引擎导出包，首屏只加载四个 glTF 模型（约 2.5 MB），其余家具和场景都是代码拼出来的几何体。
+全部跑在 Web 端，不依赖引擎导出包。首屏加载 5 个模型（约 14 MB，其中 VRM 角色 4.9 MB），其余家具和场景都是代码拼出来的几何体。
 
 ![预览](preview.png)
 
@@ -15,8 +15,9 @@
 | 构建 | Vite 7 + TypeScript | 开发态 HMR，生产构建产物 gzip 后约 600 KB |
 | 渲染 | Three.js + React Three Fiber + drei | 场景树用 JSX 描述，灯光/材质可直接改 props |
 | 状态 | Zustand | 单 store 承载直播房间状态 |
+| 角色 | @pixiv/three-vrm 3 | 加载 VRM 人形，提供 Humanoid 骨骼、表情预设和 spring bone 物理 |
 | UI | 原生 HTML/CSS 浮层 | 卡片不进 3D 场景，用绝对定位盖在 canvas 上 |
-| 模型 | glTF/GLB | 三个 Khronos 官方示例模型 |
+| 模型 | glTF/GLB + VRM | Khronos 示例场景 + CC0 虚拟形象 |
 
 没有用 Unity WebGL 或 Unreal 像素流：这个场景是静态室内 + 单角色，Web 原生渲染的包体和迭代速度都更划算。
 
@@ -34,10 +35,10 @@ npm run preview
 ## 目录结构
 
 ```
-public/models/          四个 glTF 模型（沙发 / 绿植 / 狐狸 / 果冻角色）
+public/models/          沙发 / 绿植 / 狐狸 + 主播 VRM
 src/App.tsx             画布配置、相机、色调映射、事件循环
 src/scene/Scene.tsx     房间、家具、灯光、相机漂移
-src/scene/Mascot.tsx    CC0 果冻角色（呼吸 / 眨眼 / 口型）
+src/scene/VrmMascot.tsx VRM 主播（骨骼待机 / 挥手 / 眨眼 / 口型）
 src/scene/Asset.tsx     glTF 加载与包围盒归一化工具
 src/scene/Fox.tsx       带骨骼动画的小狐狸
 src/ui/Overlay.tsx      四块 HTML 浮层
@@ -49,12 +50,15 @@ src/styles.css          全部界面样式
 
 **房间与家具**：墙面、地板、门、厨房、相框、茶几、地毯、抱枕全部用 `RoundedBox` 和基础几何体拼成。地板接缝用细长条叠加，避免额外贴图。
 
-**角色**：`public/models/CocoaJelly.glb` 是 CC0 的果冻小怪兽，自带 `bob` 动画，眼睛、嘴巴、眉毛、腮红都是独立节点。运行时在原模型基础上叠加：
+**角色**：`public/models/TwoTails.vrm` 是 CC0 的 VRM 人形角色，标准 Humanoid 骨架 + 表情预设 + spring bone。加载后按包围盒统一缩放到 1.5 m，脚底对齐地面。动画全部在 `useFrame` 里用归一化骨骼实时计算：
 
-- 呼吸 / 说话：整体 `scale.y` 做正弦挤压拉伸，`speaking` 为真时频率和幅度都更大
-- 眨眼：把左右眼节点的 `scale.y` 压到基准值的 0.12（注意必须乘以节点自带基准缩放，直接赋值会把眼睛放大几十倍）
-- 口型：`mouth` 节点 `scale.y` 跟着语音状态脉动
-- 材质：原模型用的是透射材质，会多渲染一遍全场景，这里替换成不透明的暖奶油色 `MeshStandardMaterial`，移动端更稳，颜色也更接近参考图
+- 待机：脊柱、胸腔、头部做低频正弦摇摆，像呼吸和轻微晃动
+- 挥手：随机触发 1.8 秒，右大臂抬到水平以上并摆动
+- 眨眼：每 2–5 秒把 `blink` 表情打到 1，持续 0.14 秒
+- 口型：`speaking` 为真时驱动 VRM 的 `aa` 表情预设，嘴型跟着正弦波开合
+- 视线：把 `vrm.lookAt.target` 指向相机，眼睛会跟着镜头
+
+注意 VRM 归一化骨骼的静止姿势是 T-pose，手臂水平伸展，直接设 `rotation.z = 0` 会让角色一直张着手，要绕 Z 轴压到 ±1.32 rad 才是自然垂放。另外不同 VRM 导出时单位不一定是 1:1 米制，必须按包围盒归一化。
 
 **开源模型**：`Asset.tsx` 会读模型的包围盒，按目标尺寸等比缩放、水平居中、底面贴地，所以不用关心每个模型的单位和原点。沙发加载后按网格名把 `fabric` 材质重染成暖米色，并关掉模型自带的 `Key Light`，统一由场景灯光负责照明。
 
@@ -76,7 +80,7 @@ socket.onmessage = (e) => {
 }
 ```
 
-口型驱动也留了接口：`speaking` 布尔值接 TTS 的播放状态，如果要更精细，可以把音素的振幅或 viseme 直接映射到 `Mascot` 里 `mouth.scale.y`。
+口型驱动也留了接口：`speaking` 布尔值接 TTS 的播放状态，如果要更精细，可以把音素的振幅或 viseme 直接映射到 VRM 的 `aa` / `ih` / `ou` 表情预设。
 
 ## 模型与授权
 
@@ -85,13 +89,14 @@ socket.onmessage = (e) => {
 | `Sofa.glb` | Khronos glTF Sample Assets, *GlamVelvetSofa* | CC BY 4.0 |
 | `Plant.glb` | Khronos glTF Sample Assets | CC BY 4.0 |
 | `Fox.glb` | Khronos glTF Sample Assets | CC BY 4.0 |
-| `CocoaJelly.glb` | [3DAssets.dev · Jelly Friends Playroom](https://3dassets.dev/assets/jelly-friends-playroom-jelly-cocoa-90dbb0a8) | CC0 1.0（无需署名） |
+| `TwoTails.vrm` | [Polygonal Mind · 100 Avatars](https://vtubeme.com/free-vrm-avatars)，由 VTubeMe 分发 | CC0 1.0（无需署名） |
 
 署名信息同时显示在页面右下角。用于商业项目时请保留该署名，或替换为自有模型。
 
 ## 已知限制
 
 - 没有做资源预加载和按需加载，场景在弱网下会先出现空白再整体出现
+- 角色 VRM 有 4.9 MB，弱网下会比其他模型晚出现；后续建议先加载低模占位再替换
 - 移动端尚未专门优化，中低端设备的像素比和阴影配置需要下调
 - 狐狸模型的 `Survey` 动画只做了淡入播放，没有和玩家交互联动
 - 光照未烘焙，如果要接近参考图的质感，建议在 Blender 里烘 lightmap 后替换实时阴影

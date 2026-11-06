@@ -4,7 +4,7 @@ import { ContactShadows, Environment, Lightformer, RoundedBox } from '@react-thr
 import * as THREE from 'three'
 import { Asset } from './Asset'
 import { Fox } from './Fox'
-import { Mascot } from './Mascot'
+import { VrmMascot } from './VrmMascot'
 
 const WOOD = '#C89768'
 const WALL = '#EFE0CC'
@@ -325,7 +325,7 @@ export function Scene() {
       </Suspense>
 
       <SofaDecor />
-      <Mascot position={[0, 0.44, -0.45]} rotation={[0, 0, 0]} />
+      <VrmMascot position={[0, 0, 1.85]} rotation={[0, 0, 0]} />
 
       <ContactShadows position={[0, 0.02, 0.6]} opacity={0.35} scale={9} blur={2.6} far={3} color="#6B4526" />
     </>
