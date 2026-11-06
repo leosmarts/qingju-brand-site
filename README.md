@@ -2,7 +2,9 @@
 
 一个用浏览器实时渲染的 3D 虚拟直播间原型：暖色调的客厅场景、一个会眨眼会说话的卡通主播，以及叠加在画面上的点歌台、礼物榜、收支账单和实时字幕条。
 
-全部跑在 Web 端，不依赖引擎导出包，首屏只加载三个 glTF 模型，其余家具和角色都是代码拼出来的几何体。
+全部跑在 Web 端，不依赖引擎导出包，首屏只加载四个 glTF 模型（约 2.5 MB），其余家具和场景都是代码拼出来的几何体。
+
+![预览](preview.png)
 
 ![技术栈：React Three Fiber](https://img.shields.io/badge/three.js-r180-blue) ![React](https://img.shields.io/badge/React-19-61dafb)
 
@@ -32,10 +34,10 @@ npm run preview
 ## 目录结构
 
 ```
-public/models/          三个 glTF 模型（沙发 / 绿植 / 狐狸）
+public/models/          四个 glTF 模型（沙发 / 绿植 / 狐狸 / 果冻角色）
 src/App.tsx             画布配置、相机、色调映射、事件循环
 src/scene/Scene.tsx     房间、家具、灯光、相机漂移
-src/scene/Mascot.tsx    程序化卡通角色（呼吸 / 眨眼 / 口型 / 挥手）
+src/scene/Mascot.tsx    CC0 果冻角色（呼吸 / 眨眼 / 口型）
 src/scene/Asset.tsx     glTF 加载与包围盒归一化工具
 src/scene/Fox.tsx       带骨骼动画的小狐狸
 src/ui/Overlay.tsx      四块 HTML 浮层
@@ -47,12 +49,12 @@ src/styles.css          全部界面样式
 
 **房间与家具**：墙面、地板、门、厨房、相框、茶几、地毯、抱枕全部用 `RoundedBox` 和基础几何体拼成。地板接缝用细长条叠加，避免额外贴图。
 
-**角色**：不用建模文件，直接用球体、胶囊体组成。头是一个大球，外面叠一层扁椭球当口鼻，眼睛、腮红、头顶小橘子都是独立 mesh。动画在 `useFrame` 里算：
+**角色**：`public/models/CocoaJelly.glb` 是 CC0 的果冻小怪兽，自带 `bob` 动画，眼睛、嘴巴、眉毛、腮红都是独立节点。运行时在原模型基础上叠加：
 
-- 呼吸：整体 `scale.y` 轻微起伏
-- 眨眼：随机间隔把眼睛的 `scale.y` 压到 0.12
-- 口型：`speaking` 为真时，嘴巴的 `scale.y` 跟着正弦波抖动
-- 挥手：随机触发 1.6 秒的右臂抬升
+- 呼吸 / 说话：整体 `scale.y` 做正弦挤压拉伸，`speaking` 为真时频率和幅度都更大
+- 眨眼：把左右眼节点的 `scale.y` 压到基准值的 0.12（注意必须乘以节点自带基准缩放，直接赋值会把眼睛放大几十倍）
+- 口型：`mouth` 节点 `scale.y` 跟着语音状态脉动
+- 材质：原模型用的是透射材质，会多渲染一遍全场景，这里替换成不透明的暖奶油色 `MeshStandardMaterial`，移动端更稳，颜色也更接近参考图
 
 **开源模型**：`Asset.tsx` 会读模型的包围盒，按目标尺寸等比缩放、水平居中、底面贴地，所以不用关心每个模型的单位和原点。沙发加载后按网格名把 `fabric` 材质重染成暖米色，并关掉模型自带的 `Key Light`，统一由场景灯光负责照明。
 
@@ -83,6 +85,7 @@ socket.onmessage = (e) => {
 | `Sofa.glb` | Khronos glTF Sample Assets, *GlamVelvetSofa* | CC BY 4.0 |
 | `Plant.glb` | Khronos glTF Sample Assets | CC BY 4.0 |
 | `Fox.glb` | Khronos glTF Sample Assets | CC BY 4.0 |
+| `CocoaJelly.glb` | [3DAssets.dev · Jelly Friends Playroom](https://3dassets.dev/assets/jelly-friends-playroom-jelly-cocoa-90dbb0a8) | CC0 1.0（无需署名） |
 
 署名信息同时显示在页面右下角。用于商业项目时请保留该署名，或替换为自有模型。
 

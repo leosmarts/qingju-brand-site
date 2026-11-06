@@ -159,11 +159,11 @@ function CoffeeTable() {
       <Slab size={[0.09, 0.035, 0.26]} position={[0.12, 0.5, 0.36]} color="#4A4038" radius={0.015} />
 
       {/* 小盆栽 */}
-      <mesh position={[-0.02, 0.56, -0.2]} castShadow>
+      <mesh position={[-0.85, 0.56, -0.2]} castShadow>
         <cylinderGeometry args={[0.09, 0.07, 0.16, 20]} />
         <meshStandardMaterial color="#D8C7AE" roughness={0.9} />
       </mesh>
-      <mesh position={[-0.02, 0.72, -0.2]} castShadow>
+      <mesh position={[-0.85, 0.72, -0.2]} castShadow>
         <sphereGeometry args={[0.13, 18, 18]} />
         <meshStandardMaterial color={GREEN} roughness={0.9} />
       </mesh>
@@ -325,7 +325,7 @@ export function Scene() {
       </Suspense>
 
       <SofaDecor />
-      <Mascot position={[0, 0.42, -0.3]} />
+      <Mascot position={[0, 0.44, -0.45]} rotation={[0, 0, 0]} />
 
       <ContactShadows position={[0, 0.02, 0.6]} opacity={0.35} scale={9} blur={2.6} far={3} color="#6B4526" />
     </>
