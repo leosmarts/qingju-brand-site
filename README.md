@@ -1,32 +1,102 @@
-# React + TypeScript + Vite
+# 嘟嘟的 3D 直播间（原型）
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+一个用浏览器实时渲染的 3D 虚拟直播间原型：暖色调的客厅场景、一个会眨眼会说话的卡通主播，以及叠加在画面上的点歌台、礼物榜、收支账单和实时字幕条。
 
-Currently, two official plugins are available:
+全部跑在 Web 端，不依赖引擎导出包，首屏只加载三个 glTF 模型，其余家具和角色都是代码拼出来的几何体。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![技术栈：React Three Fiber](https://img.shields.io/badge/three.js-r180-blue) ![React](https://img.shields.io/badge/React-19-61dafb)
 
-## React Compiler
+## 技术栈
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| 层 | 选型 | 说明 |
+|---|---|---|
+| 构建 | Vite 7 + TypeScript | 开发态 HMR，生产构建产物 gzip 后约 600 KB |
+| 渲染 | Three.js + React Three Fiber + drei | 场景树用 JSX 描述，灯光/材质可直接改 props |
+| 状态 | Zustand | 单 store 承载直播房间状态 |
+| UI | 原生 HTML/CSS 浮层 | 卡片不进 3D 场景，用绝对定位盖在 canvas 上 |
+| 模型 | glTF/GLB | 三个 Khronos 官方示例模型 |
 
-## Expanding the Oxlint configuration
+没有用 Unity WebGL 或 Unreal 像素流：这个场景是静态室内 + 单角色，Web 原生渲染的包体和迭代速度都更划算。
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+## 快速开始
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
+要求 Node ≥ 20。
+
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # 产物在 dist/
+npm run preview
+```
+
+## 目录结构
+
+```
+public/models/          三个 glTF 模型（沙发 / 绿植 / 狐狸）
+src/App.tsx             画布配置、相机、色调映射、事件循环
+src/scene/Scene.tsx     房间、家具、灯光、相机漂移
+src/scene/Mascot.tsx    程序化卡通角色（呼吸 / 眨眼 / 口型 / 挥手）
+src/scene/Asset.tsx     glTF 加载与包围盒归一化工具
+src/scene/Fox.tsx       带骨骼动画的小狐狸
+src/ui/Overlay.tsx      四块 HTML 浮层
+src/data/live.ts        直播状态的模拟事件源
+src/styles.css          全部界面样式
+```
+
+## 场景是怎么搭的
+
+**房间与家具**：墙面、地板、门、厨房、相框、茶几、地毯、抱枕全部用 `RoundedBox` 和基础几何体拼成。地板接缝用细长条叠加，避免额外贴图。
+
+**角色**：不用建模文件，直接用球体、胶囊体组成。头是一个大球，外面叠一层扁椭球当口鼻，眼睛、腮红、头顶小橘子都是独立 mesh。动画在 `useFrame` 里算：
+
+- 呼吸：整体 `scale.y` 轻微起伏
+- 眨眼：随机间隔把眼睛的 `scale.y` 压到 0.12
+- 口型：`speaking` 为真时，嘴巴的 `scale.y` 跟着正弦波抖动
+- 挥手：随机触发 1.6 秒的右臂抬升
+
+**开源模型**：`Asset.tsx` 会读模型的包围盒，按目标尺寸等比缩放、水平居中、底面贴地，所以不用关心每个模型的单位和原点。沙发加载后按网格名把 `fabric` 材质重染成暖米色，并关掉模型自带的 `Key Light`，统一由场景灯光负责照明。
+
+**光照**：一盏带阴影的暖色主光 + 一盏冷调补光 + 半球光，再用 drei 的 `Lightformer` 造一个低成本环境反射。这样能接近参考图里那种柔和的室内光，同时不用开实时全局光照。
+
+**浮层**：canvas 铺满视口，四张卡片用 `position: absolute` 定位，毛玻璃、圆角、进度条全部走 CSS。这是这套方案最重要的取舍——UI 不进 3D，排版和交互成本直接降到普通前端水平。
+
+## 接入真实数据
+
+`src/data/live.ts` 里目前是一个 `setInterval` 驱动的模拟器，每 1.2 秒跑一次 `tick`：随机产生礼物、推进播放进度、换歌曲、换字幕。
+
+换成真实后端时保留 store 结构，把 `tick` 替换成 WebSocket 消息处理即可：
+
+```ts
+socket.onmessage = (e) => {
+  const msg = JSON.parse(e.data)
+  if (msg.type === 'gift') useLive.getState().onGift(msg.payload)
+  if (msg.type === 'subtitle') useLive.getState().setSpeech(msg.text)
 }
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+口型驱动也留了接口：`speaking` 布尔值接 TTS 的播放状态，如果要更精细，可以把音素的振幅或 viseme 直接映射到 `Mascot` 里 `mouth.scale.y`。
+
+## 模型与授权
+
+| 文件 | 来源 | 授权 |
+|---|---|---|
+| `Sofa.glb` | Khronos glTF Sample Assets, *GlamVelvetSofa* | CC BY 4.0 |
+| `Plant.glb` | Khronos glTF Sample Assets | CC BY 4.0 |
+| `Fox.glb` | Khronos glTF Sample Assets | CC BY 4.0 |
+
+署名信息同时显示在页面右下角。用于商业项目时请保留该署名，或替换为自有模型。
+
+## 已知限制
+
+- 没有做资源预加载和按需加载，场景在弱网下会先出现空白再整体出现
+- 移动端尚未专门优化，中低端设备的像素比和阴影配置需要下调
+- 狐狸模型的 `Survey` 动画只做了淡入播放，没有和玩家交互联动
+- 光照未烘焙，如果要接近参考图的质感，建议在 Blender 里烘 lightmap 后替换实时阴影
+
+## 下一步
+
+- [ ] 把模拟数据换成真实 WebSocket 房间服务
+- [ ] 接入 TTS，用 viseme 驱动口型
+- [ ] 沙发/背景做 lightmap 烘焙，降低移动端开销
+- [ ] 增加礼物特效（粒子、飘屏）
+- [ ] 角色换装与表情状态机
