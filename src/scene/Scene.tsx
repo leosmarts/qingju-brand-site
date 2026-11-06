@@ -325,7 +325,7 @@ export function Scene() {
       </Suspense>
 
       <SofaDecor />
-      <WhaleMascot position={[0, 1.35, 1.5]} />
+      <WhaleMascot position={[0, 0, 1.9]} />
 
       <ContactShadows position={[0, 0.02, 0.6]} opacity={0.35} scale={9} blur={2.6} far={3} color="#6B4526" />
     </>
