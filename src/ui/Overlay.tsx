@@ -171,7 +171,7 @@ export function Overlay() {
       </div>
       <GiftToasts />
       <Subtitle />
-      <p className="credits">模型素材：Khronos glTF Sample Assets (CC BY 4.0) · Polygonal Mind 100 Avatars (CC0)</p>
+      <p className="credits">模型素材：Khronos glTF Sample Assets (CC BY 4.0)</p>
     </div>
   )
 }
